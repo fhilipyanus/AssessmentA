@@ -13,9 +13,36 @@ interface CheckInService {
     void handlePayment();
 }
 
+class Seat {
+    String seatNumber;
+    String seatClass;
+    boolean isAvailable;
+
+    Seat(String seatNumber, String seatClass) {
+        this.seatNumber = seatNumber;
+        this.seatClass = seatClass;
+        this.isAvailable = true;
+    }
+
+}
+
 class Flight {
     String flightNumber;
-    String gateNum;
+    String departureLocation;
+    String arrivalLocation;
+    String flightDuration;
+    List<Seat> seats = new ArrayList<>();
+
+    Flight(String flightNumber, String depatureLocation, String arrivalLocation, String flightDuration) {
+        this.flightNumber = flightNumber;
+        this.departureLocation = depatureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.flightDuration = flightDuration;
+    }
+
+    public void addSeat(Seat seat) {
+
+    }
 
 }
 
@@ -71,62 +98,6 @@ class BoardingPass {
 }
 
 class Payment {
-
-}
-
-class Seat {
-
-}
-
-interface CheckInService {
-
-}
-
-class ContrabandChecker {
-
-}
-
-class CheckedInBooking {
-
-}
-
-class ConfirmedBooking {
-
-}
-
-class Baggage {
-
-}
-
-class CheckIn {
-
-}
-
-class SelfCheckIn {
-
-}
-
-class CounterCheckIn {
-
-}
-
-class CheckInAgent {
-
-}
-
-class BoardingPass {
-
-}
-
-class Payment {
-
-}
-
-class Seat {
-
-}
-
-interface CheckInService {
 
 }
 
