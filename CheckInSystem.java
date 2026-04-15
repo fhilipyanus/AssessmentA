@@ -6,6 +6,7 @@ class Flight {
 
 class Booking {
     int bookingNumber;
+    String bookingDate;
 }
 
 class Passenger {
@@ -20,4 +21,5 @@ class Passenger {
 
 class CheckInSystem {
     String seat;
+
 }
