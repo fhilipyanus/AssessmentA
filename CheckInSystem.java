@@ -1,3 +1,18 @@
+import java.util.List;
+import java.util.ArrayList;
+
+interface CheckInService {
+    void selectSeat();
+
+    void checkInBaggage();
+
+    void createBoardingPass();
+
+    void verifyIdentity();
+
+    void handlePayment();
+}
+
 class Flight {
     String flightNumber;
     String gateNum;
