@@ -5,7 +5,7 @@ class Flight {
 }
 
 class Booking {
-    int bookingNumber;
+    String bookingNumber;
 }
 
 class Passenger {
