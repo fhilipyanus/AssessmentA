@@ -18,5 +18,5 @@ class Passenger {
 }
 
 class CheckInSystem {
-
+    String seat;
 }
