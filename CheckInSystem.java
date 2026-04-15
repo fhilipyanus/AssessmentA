@@ -1,3 +1,18 @@
+import java.util.List;
+import java.util.ArrayList;
+
+interface CheckInService {
+    void selectSeat();
+
+    void checkInBaggage();
+
+    void createBoardingPass();
+
+    void verifyIdentity();
+
+    void handlePayment();
+}
+
 class Flight {
     String flightNumber;
     String gateNum;
@@ -5,6 +20,7 @@ class Flight {
 }
 
 class Booking {
+    String bookingDate;
     String bookingNumber;
 }
 
@@ -20,6 +36,54 @@ class Passenger {
 
 class CheckInSystem {
     String seat;
+}
+
+class CheckedInBooking {
+
+}
+
+class ConfirmedBooking {
+
+}
+
+class Baggage {
+
+}
+
+class CheckIn {
+
+}
+
+class SelfCheckIn {
+
+}
+
+class CounterCheckIn {
+
+}
+
+class CheckInAgent {
+
+}
+
+class BoardingPass {
+
+}
+
+class Payment {
+
+}
+
+class Seat {
+
+}
+
+interface CheckInService {
+
+}
+
+class ContrabandChecker {
+
 }
 
 class CheckedInBooking {
