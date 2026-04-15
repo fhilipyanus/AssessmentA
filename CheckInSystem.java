@@ -24,6 +24,18 @@ class Seat {
         this.isAvailable = true;
     }
 
+    void releaseSeat() {
+        this.isAvailable = true;
+    }
+
+    void assignSeat() {
+        this.isAvailable = false;
+    }
+
+    boolean checkAvailability() {
+        return this.isAvailable;
+    }
+
 }
 
 class Flight {
