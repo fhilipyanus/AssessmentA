@@ -1,5 +1,6 @@
 class Flight {
     String flightNumber;
+    String gateNum;
 
 }
 
