@@ -21,3 +21,51 @@ class Passenger {
 class CheckInSystem {
     String seat;
 }
+
+class CheckedInBooking {
+
+}
+
+class ConfirmedBooking {
+
+}
+
+class Baggage {
+
+}
+
+class CheckIn {
+
+}
+
+class SelfCheckIn {
+
+}
+
+class CounterCheckIn {
+
+}
+
+class CheckInAgent {
+
+}
+
+class BoardingPass {
+
+}
+
+class Payment {
+
+}
+
+class Seat {
+
+}
+
+interface CheckInService {
+
+}
+
+class ContrabandChecker {
+
+}
