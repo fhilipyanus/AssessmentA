@@ -5,8 +5,8 @@ class Flight {
 }
 
 class Booking {
-    int bookingNumber;
     String bookingDate;
+    String bookingNumber;
 }
 
 class Passenger {
