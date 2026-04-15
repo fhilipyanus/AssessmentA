@@ -15,7 +15,16 @@ interface CheckInService {
 
 class Flight {
     String flightNumber;
-    String gateNum;
+    String departureLocation;
+    String arrivalLocation;
+    String flightDuration;
+
+    Flight(String flightNumber, String depatureLocation, String arrivalLocation, String flightDuration) {
+        this.flightNumber = flightNumber;
+        this.departureLocation = depatureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.flightDuration = flightDuration;
+    }
 
 }
 
