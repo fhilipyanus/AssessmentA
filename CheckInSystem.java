@@ -1,43 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
 
-interface CheckInService {
-    void selectSeat();
-
-    void checkInBaggage();
-
-    void createBoardingPass();
-
-    void verifyIdentity();
-
-    void handlePayment();
-}
-
-class Seat {
-    String seatNumber;
-    String seatClass;
-    boolean isAvailable;
-
-    Seat(String seatNumber, String seatClass) {
-        this.seatNumber = seatNumber;
-        this.seatClass = seatClass;
-        this.isAvailable = true;
-    }
-
-    void releaseSeat() {
-        this.isAvailable = true;
-    }
-
-    void assignSeat() {
-        this.isAvailable = false;
-    }
-
-    boolean checkAvailability() {
-        return this.isAvailable;
-    }
-
-}
-
 class Flight {
     String flightNumber;
     String departureLocation;
@@ -77,6 +40,8 @@ class CheckInSystem {
     String seat;
 }
 
+// Fhilip:
+
 class CheckedInBooking {
 
 }
@@ -87,6 +52,24 @@ class ConfirmedBooking {
 
 class Baggage {
 
+}
+
+class BoardingPass {
+
+}
+
+// Jeson:
+
+interface CheckInService {
+    void selectSeat();
+
+    void checkInBaggage();
+
+    void createBoardingPass();
+
+    void verifyIdentity();
+
+    void handlePayment();
 }
 
 class CheckIn {
@@ -105,14 +88,37 @@ class CheckInAgent {
 
 }
 
-class BoardingPass {
-
-}
+// Javier:
 
 class Payment {
 
 }
 
 class ContrabandChecker {
+
+}
+
+class Seat {
+    String seatNumber;
+    String seatClass;
+    boolean isAvailable;
+
+    Seat(String seatNumber, String seatClass) {
+        this.seatNumber = seatNumber;
+        this.seatClass = seatClass;
+        this.isAvailable = true;
+    }
+
+    void releaseSeat() {
+        this.isAvailable = true;
+    }
+
+    void assignSeat() {
+        this.isAvailable = false;
+    }
+
+    boolean checkAvailability() {
+        return this.isAvailable;
+    }
 
 }
