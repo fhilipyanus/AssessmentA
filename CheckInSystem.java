@@ -22,8 +22,65 @@ class Flight {
 }
 
 class Booking {
+    String bookingNum;
+    boolean baggageChecked;
     String bookingDate;
-    String bookingNumber;
+
+    private Seat assignedSeat;
+    private boolean isConfirmed;
+    private boolean isCancelled;
+
+    Booking(String bookingNum, String bookingDate) {
+        this.bookingNum = bookingNum;
+        this.bookingDate = bookingDate;
+        this.baggageChecked = false;
+        this.isConfirmed = false;
+        this.isCancelled = false;
+    }
+
+    Booking() {
+        this("", "");
+    }
+
+    void confirmBooking() {
+        if (isCancelled) {
+            return;
+        }
+        isConfirmed = true;
+    }
+
+    void cancelBooking() {
+        isCancelled = true;
+        isConfirmed = false;
+        if (assignedSeat != null) {
+            assignedSeat.releaseSeat();
+            assignedSeat = null;
+        }
+    }
+
+    void assignSeat(Seat seat) {
+        if (seat == null || isCancelled) {
+            return;
+        }
+        if (!seat.checkAvailability()) {
+            return;
+        }
+
+        if (assignedSeat != null) {
+            assignedSeat.releaseSeat();
+        }
+
+        seat.assignSeat();
+        assignedSeat = seat;
+    }
+
+    @Override
+    public String toString() {
+        String seatNum = (assignedSeat == null) ? "None" : assignedSeat.seatNumber;
+        return "Booking{bookingNum='" + bookingNum + "', baggageChecked=" + baggageChecked
+                + ", bookingDate='" + bookingDate + "', confirmed=" + isConfirmed
+                + ", cancelled=" + isCancelled + ", seat=" + seatNum + "}";
+    }
 }
 
 class Passenger {
@@ -42,20 +99,51 @@ class CheckInSystem {
 
 // Fhilip:
 
-class CheckedInBooking {
+class CheckedInBooking extends Booking {
+    String checkInTime;
 
+    CheckedInBooking(String bookingNum, String bookingDate, String checkInTime) {
+        super(bookingNum, bookingDate);
+        this.checkInTime = checkInTime;
+    }
 }
 
-class ConfirmedBooking {
+class ConfirmedBooking extends Booking {
+    enum seatSelectionStatus {
+        NOT_SELECTED,
+        SELECTED,
+        CONFIRMED
+    }
 
+    seatSelectionStatus seatSelectionStatus = seatSelectionStatus.NOT_SELECTED;
+    String bookingDate;
+
+    ConfirmedBooking(String bookingNum, String bookingDate) {
+        super(bookingNum, bookingDate);
+        this.bookingDate = bookingDate;
+    }
+
+    void confirmSeatSelection() {
+        seatSelectionStatus = seatSelectionStatus.CONFIRMED;
+    }
 }
 
 class Baggage {
+    int baggageID;
+    float weight;
+    boolean checkedIn;
 
+    enum contrabandFlag {
+        UNKNOWN,
+        CLEAR,
+        FLAGGED
+    }
+
+    contrabandFlag contrabandFlag = contrabandFlag.UNKNOWN;
 }
 
 class BoardingPass {
-
+    int boardingPassID;
 }
 
 // Jeson:
