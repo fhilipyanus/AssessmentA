@@ -109,13 +109,12 @@ class CheckedInBooking extends Booking {
 }
 
 class ConfirmedBooking extends Booking {
-    enum seatSelectionStatus {
+    enum SeatSelectionStatus {
         NOT_SELECTED,
-        SELECTED,
-        CONFIRMED
+        SELECTED
     }
 
-    seatSelectionStatus seatSelectionStatus = seatSelectionStatus.NOT_SELECTED;
+    SeatSelectionStatus seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
     String bookingDate;
 
     ConfirmedBooking(String bookingNum, String bookingDate) {
@@ -124,7 +123,7 @@ class ConfirmedBooking extends Booking {
     }
 
     void confirmSeatSelection() {
-        seatSelectionStatus = seatSelectionStatus.CONFIRMED;
+        seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
     }
 }
 
@@ -133,13 +132,13 @@ class Baggage {
     float weight;
     boolean checkedIn;
 
-    enum contrabandFlag {
+    enum ContrabandFlag {
         UNKNOWN,
         CLEAR,
         FLAGGED
     }
 
-    contrabandFlag contrabandFlag = contrabandFlag.UNKNOWN;
+    ContrabandFlag contrabandFlag = ContrabandFlag.UNKNOWN;
 }
 
 class BoardingPass {
@@ -178,8 +177,54 @@ class CheckInAgent {
 
 // Javier:
 
-class Payment {
+enum PaymentStatus {
+    PAID,
+    PENDING,
+    UNPAID
+}
 
+class Payment {
+    String paymentID;
+    double amount;
+    String paymentType;
+    PaymentStatus status;
+
+    public Payment(String paymentID, double amount, String paymentType) {
+        this.paymentID = paymentID;
+        this.amount = amount;
+        this.paymentType = paymentType;
+        this.status = PaymentStatus.UNPAID;
+    }
+
+    public boolean processPayment() {
+        if (amount <= 0) {
+            System.out.println("Payment " + paymentID + " failed: invalid amount.");
+            status = PaymentStatus.PENDING;
+            return false;
+        }
+        status = PaymentStatus.PAID;
+        System.out.println("Payment " + paymentID + " processed successfully. Amount: $" + amount);
+        return true;
+    }
+
+    void refundPayment() {
+        if (status == PaymentStatus.PAID) {
+            status = PaymentStatus.UNPAID;
+            System.out.println("Payment " + paymentID + " has been refunded.");
+        } else {
+            System.out.println("Payment " + paymentID + " cannot be refunded (current status: " + status + ").");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "paymentID='" + paymentID + '\'' +
+                ", amount=" + amount +
+                ", paymentType='" + paymentType + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
 
 class ContrabandChecker {
