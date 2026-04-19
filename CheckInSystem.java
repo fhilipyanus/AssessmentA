@@ -24,7 +24,9 @@ class Flight {
     }
 
     public void addSeat(Seat seat) {
-
+        if (seat!=null) {
+            seats.add(seat)
+        }
     }
 
     public String toString() {
