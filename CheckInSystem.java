@@ -3,7 +3,9 @@ import java.util.ArrayList;
 
 class CheckInSystem {
     public static void main(String[] args) {
-
+        List flights = new ArrayList<>();
+        flights.add(new Flight("D7 221", "Sydney", "Kuala Lumpur", 550));
+        System.out.println(flights);
     }
 }
 
