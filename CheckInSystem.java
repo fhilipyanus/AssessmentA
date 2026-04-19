@@ -146,7 +146,7 @@ class ConfirmedBooking extends Booking {
     }
 
     void confirmSeatSelection() {
-        seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
+        seatSelectionStatus = SeatSelectionStatus.SELECTED;
     }
 }
 
