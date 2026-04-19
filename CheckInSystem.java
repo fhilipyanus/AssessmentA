@@ -27,6 +27,16 @@ class Flight {
 
     }
 
+    public String toString() {
+        return "Flight{" +
+                "flightNumber=" + flightNumber +
+                ", departureLocation=" + departureLocation +
+                ", arrivalLocation=" + arrivalLocation +
+                ", flightDuration=" + flightDuration +
+                ", seats=" + seats +
+                '}';
+    }
+
 }
 
 class Booking {
