@@ -159,20 +159,62 @@ interface CheckInService {
     void handlePayment();
 }
 
-class CheckIn {
+class CheckIn implements CheckInService {
+    int checkInID;
 
+    @Override
+    public void selectSeat() {
+    }
+
+    @Override
+    public void checkInBaggage() {
+    }
+
+    @Override
+    public void createBoardingPass() {
+    }
+
+    @Override
+    public void verifyIdentity() {
+    }
+
+    @Override
+    public void handlePayment() {
+    }
 }
 
-class SelfCheckIn {
+class SelfCheckIn extends CheckIn {
+    String machineID;
 
+    void startSelfCheckIn() {
+    }
 }
 
-class CounterCheckIn {
+class CounterCheckIn extends CheckIn {
+    CheckInAgent agent;
+    String counterID;
 
+    boolean verifyDocuments(Passenger passenger) {
+        return false;
+    }
+
+    void assistCheckIn(Passenger passenger) {
+    }
+
+    void assistPassenger(Passenger passenger) {
+    }
 }
 
 class CheckInAgent {
+    String agentID;
+    String name;
 
+    boolean verifyDocuments(Passenger passenger) {
+        return false;
+    }
+
+    void assistCheckIn(Passenger passenger) {
+    }
 }
 
 // Javier:
