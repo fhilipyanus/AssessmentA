@@ -3,9 +3,10 @@ import java.util.ArrayList;
 
 class CheckInSystem {
     public static void main(String[] args) {
-        List flights = new ArrayList<>();
+        List<Flight> flights = new ArrayList<>();
         flights.add(new Flight("D7 221", "Sydney", "Kuala Lumpur", 550));
         System.out.println(flights);
+        System.out.println(flights.get(0).seats);
     }
 }
 
@@ -21,11 +22,17 @@ class Flight {
         this.departureLocation = depatureLocation;
         this.arrivalLocation = arrivalLocation;
         this.flightDuration = flightDuration;
+
+        for (int row = 1; row <= 30; row++) {
+            for (char col = 'A'; col <= 'F'; col++) {
+                seats.add(new Seat(String.valueOf(row) + col, "Economy"));
+            }
+        }
     }
 
     public void addSeat(Seat seat) {
-        if (seat!=null) {
-            seats.add(seat)
+        if (seat != null) {
+            seats.add(seat);
         }
     }
 
