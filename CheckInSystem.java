@@ -12,6 +12,22 @@ class CheckInSystem {
     }
 }
 
+enum ContrabandFlag {
+    CLEAR,
+    FLAGGED
+}
+
+enum SeatSelectionStatus {
+    NOT_SELECTED,
+    SELECTED
+}
+
+enum PaymentStatus {
+    PAID,
+    PENDING,
+    UNPAID
+}
+
 class Flight {
     String flightNumber;
     String departureLocation;
@@ -25,8 +41,9 @@ class Flight {
         this.arrivalLocation = arrivalLocation;
         this.flightDuration = flightDuration;
 
+        String[] cols = { "A", "B", "C", "D", "E", "F" };
         for (int row = 1; row <= 30; row++) {
-            for (char col = 'A'; col <= 'F'; col++) {
+            for (String col : cols) {
                 seats.add(new Seat(String.valueOf(row) + col, "Economy"));
             }
         }
@@ -36,6 +53,18 @@ class Flight {
         if (seat != null) {
             seats.add(seat);
         }
+    }
+
+    public Seat findSeatByNumber(String seatNumber) {
+        if (seatNumber == null) {
+            return null;
+        }
+        for (Seat s : seats) {
+            if (s.seatNumber.equals(seatNumber)) {
+                return s;
+            }
+        }
+        return null;
     }
 
     public String toString() {
@@ -65,10 +94,6 @@ class Booking {
         this.baggageChecked = false;
         this.isConfirmed = false;
         this.isCancelled = false;
-    }
-
-    Booking() {
-        this("", "");
     }
 
     void confirmBooking() {
@@ -132,10 +157,6 @@ class CheckedInBooking extends Booking {
 }
 
 class ConfirmedBooking extends Booking {
-    enum SeatSelectionStatus {
-        NOT_SELECTED,
-        SELECTED
-    }
 
     SeatSelectionStatus seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
     String bookingDate;
@@ -151,21 +172,50 @@ class ConfirmedBooking extends Booking {
 }
 
 class Baggage {
-    int baggageID;
-    float weight;
+    String baggageID;
+    double weight;
     boolean checkedIn;
+    ContrabandFlag contrabandFlag;
 
-    enum ContrabandFlag {
-        UNKNOWN,
-        CLEAR,
-        FLAGGED
+    public Baggage(String baggageID, double weight) {
+        this.baggageID = baggageID;
+        this.weight = weight;
+        checkedIn = false;
+        contrabandFlag = ContrabandFlag.CLEAR;
     }
 
-    ContrabandFlag contrabandFlag = ContrabandFlag.UNKNOWN;
+    void updateWeight(double weight) {
+
+    }
+
+    void markedCheckIn() {
+
+    }
+
+    void flagContraband() {
+        contrabandFlag = contrabandFlag.FLAGGED;
+    }
+
 }
 
 class BoardingPass {
     int boardingPassID;
+    Seat seat;
+    Flight flight;
+
+    public BoardingPass(int boardingPassID, Seat seat, Flight flight) {
+        this.boardingPassID = boardingPassID;
+        this.seat = seat;
+        this.flight = flight;
+    }
+
+    void generatePass() {
+
+    }
+    // public String toString(){
+
+    // }
+
 }
 
 interface CheckInService {
@@ -182,32 +232,136 @@ interface CheckInService {
 
 class CheckIn implements CheckInService {
     int checkInID;
+    Flight flight;
+
+    public CheckIn(int checkInID) {
+        this.checkInID = checkInID;
+    }
+
+    public CheckIn(int checkInID, Flight flight) {
+        this.checkInID = checkInID;
+        this.flight = flight;
+    }
 
     @Override
     public void selectSeat() {
+        if (flight == null) {
+            System.out.println("No flight assigned; cannot select seat.");
+            return;
+        }
+        System.out.print("Enter seat row (1-30): ");
+        int row = In.nextInt();
+        System.out.print("Enter seat column (A-F): ");
+        char col = In.nextUpperChar();
+        String seatNumber = String.valueOf(row) + col;
+        Seat seat = flight.findSeatByNumber(seatNumber);
+        if (seat == null) {
+            System.out.println("No such seat on this flight: " + seatNumber);
+            return;
+        }
+        selectSeat(seat);
+    }
+
+    public void selectSeat(Seat seat) {
+        if ((seat != null) && (seat.checkAvailability())) {
+            seat.assignSeat();
+            System.out.println("Seat selected successfully");
+        } else {
+            System.out.println("Seat is not available");
+        }
     }
 
     @Override
     public void checkInBaggage() {
+        System.out.print("Enter baggage ID: ");
+        String baggageID = In.nextLine();
+        System.out.print("Enter baggage weight (kg): ");
+        double weight = In.nextDouble();
+        checkInBaggage(new Baggage(baggageID, weight));
+    }
+
+    public void checkInBaggage(Baggage baggage) {
+        if (baggage != null) {
+            baggage.markedCheckIn();
+            System.out.println("Baggage checked in");
+        } else {
+            System.out.println("No baggage");
+        }
     }
 
     @Override
     public void createBoardingPass() {
+        if (flight == null) {
+            System.out.println("No flight assigned; cannot create boarding pass.");
+            return;
+        }
+        System.out.print("Enter boarding pass ID: ");
+        int boardingPassID = In.nextInt();
+        System.out.print("Enter seat row (1-30) for boarding pass: ");
+        int row = In.nextInt();
+        System.out.print("Enter seat column (A-F): ");
+        char col = In.nextUpperChar();
+        String seatNumber = String.valueOf(row) + col;
+        Seat seat = flight.findSeatByNumber(seatNumber);
+        if (seat == null) {
+            System.out.println("No such seat on this flight: " + seatNumber);
+            return;
+        }
+        createBoardingPass(boardingPassID, seat, flight);
+    }
+
+    public void createBoardingPass(int boardingPassID, Seat seat, Flight flight) {
+        BoardingPass boardingPass = new BoardingPass(boardingPassID, seat, flight);
     }
 
     @Override
     public void verifyIdentity() {
+        System.out.println("Identity verified");
     }
 
     @Override
     public void handlePayment() {
+        System.out.print("Enter payment ID: ");
+        String paymentID = In.nextLine();
+        System.out.print("Enter amount: ");
+        double amount = In.nextDouble();
+        System.out.print("Enter payment type: ");
+        String paymentType = In.nextLine();
+        handlePayment(new Payment(paymentID, amount, paymentType));
+    }
+
+    public void handlePayment(Payment payment) {
+        if (payment != null) {
+            boolean success = payment.processPayment();
+            if (success) {
+                System.out.println("Payment completed successfully");
+            } else {
+                System.out.println("Payment failed. Please try again");
+            }
+        } else {
+            System.out.println("No payment required");
+        }
     }
 }
 
 class SelfCheckIn extends CheckIn {
     String machineID;
 
+    public SelfCheckIn(int checkInID, String machineID, Flight flight) {
+        super(checkInID, flight);
+        this.machineID = machineID;
+    }
+
     void startSelfCheckIn() {
+        System.out.println("Starting self cehck-in at machine: " + machineID);
+
+        verifyIdentity();
+        selectSeat();
+        checkInBaggage();
+        handlePayment();
+        createBoardingPass();
+
+        System.out.println("Self check-in completed.");
     }
 }
 
@@ -215,14 +369,32 @@ class CounterCheckIn extends CheckIn {
     CheckInAgent agent;
     String counterID;
 
-    boolean verifyDocuments(Passenger passenger) {
-        return false;
+    public CounterCheckIn(CheckInAgent agent, String counterID) {
+        super(0, null);
+        this.agent = agent;
+        this.counterID = counterID;
     }
 
-    void assistCheckIn(Passenger passenger) {
+    boolean verifyDocuments(Passenger passenger) {
+        return agent != null && agent.verifyDocuments(passenger);
+    }
+
+    void assistCheckIn(Booking booking, Passenger passenger) {
+        System.out.println("Check-in at counter: " + counterID);
+
+        if (verifyDocuments(passenger)) {
+            System.out.println("Documents verified");
+            System.out.println("Processing booking...");
+            System.out.println("Check-in successfull");
+        } else {
+            System.out.println("Verification failed");
+        }
     }
 
     void assistPassenger(Passenger passenger) {
+        if (agent != null) {
+            agent.assistCheckIn(passenger);
+        }
     }
 }
 
@@ -231,17 +403,13 @@ class CheckInAgent {
     String name;
 
     boolean verifyDocuments(Passenger passenger) {
-        return false;
+        System.out.println("Verifying documents for " + passenger);
+        return passenger != null;
     }
 
     void assistCheckIn(Passenger passenger) {
+        System.out.println("Assisting passenger : " + passenger);
     }
-}
-
-enum PaymentStatus {
-    PAID,
-    PENDING,
-    UNPAID
 }
 
 class Payment {
