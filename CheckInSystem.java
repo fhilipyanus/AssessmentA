@@ -41,9 +41,9 @@ class Flight {
         this.arrivalLocation = arrivalLocation;
         this.flightDuration = flightDuration;
 
-        // Redo
+        String[] cols = { "A", "B", "C", "D", "E", "F" };
         for (int row = 1; row <= 30; row++) {
-            for (char col = 'A'; col <= 'F'; col++) {
+            for (String col : cols) {
                 seats.add(new Seat(String.valueOf(row) + col, "Economy"));
             }
         }
