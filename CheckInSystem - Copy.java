@@ -55,6 +55,20 @@ class Flight {
         }
     }
 
+    /**
+     * public Seat findSeatByNumber(String seatNumber) {
+     * if (seatNumber == null) {
+     * return null;
+     * }
+     * for (Seat s : seats) {
+     * if (s.seatNumber.equalsIgnoreCase(seatNumber)) {
+     * return s;
+     * }
+     * }
+     * return null;
+     * }
+     */
+
     public String toString() {
         return "Flight{" +
                 "flightNumber=" + flightNumber +
@@ -223,7 +237,7 @@ class CheckIn implements CheckInService {
     Flight flight;
 
     public CheckIn(int checkInID) {
-        this.checkInID = checkInID;
+        this(checkInID, null);
     }
 
     public CheckIn(int checkInID, Flight flight) {
@@ -259,7 +273,13 @@ class CheckIn implements CheckInService {
         }
     }
 
-    @Override
+    /**
+     * @Override
+     *           public void checkInBaggage() {
+     *           checkInBaggage(null);
+     *           }
+     */
+
     public void checkInBaggage(Baggage baggage) {
         if (baggage != null) {
             baggage.markedCheckIn();
@@ -269,7 +289,13 @@ class CheckIn implements CheckInService {
         }
     }
 
-    @Override
+    /**
+     * @Override
+     *           public void createBoardingPass() {
+     *           createBoardingPass(0, null, flight);
+     *           }
+     */
+
     public void createBoardingPass(int boardingPassID, Seat seat, Flight flight) {
         BoardingPass boardingPass = new BoardingPass(boardingPassID, seat, flight);
     }
@@ -279,7 +305,13 @@ class CheckIn implements CheckInService {
         System.out.println("Identity verified");
     }
 
-    @Override
+    /**
+     * @Override
+     *           public void handlePayment() {
+     *           handlePayment(null);
+     *           }
+     */
+
     public void handlePayment(Payment payment) {
         if (payment != null) {
             boolean success = payment.processPayment();
@@ -320,6 +352,7 @@ class CounterCheckIn extends CheckIn {
     String counterID;
 
     public CounterCheckIn(CheckInAgent agent, String counterID) {
+        super(0, null);
         this.agent = agent;
         this.counterID = counterID;
     }
