@@ -260,6 +260,14 @@ class CheckIn implements CheckInService {
     }
 
     @Override
+    public void checkInBaggage() {
+        System.out.print("Enter baggage ID: ");
+        String baggageID = In.nextLine();
+        System.out.print("Enter baggage weight (kg): ");
+        double weight = In.nextDouble();
+        checkInBaggage(new Baggage(baggageID, weight));
+    }
+
     public void checkInBaggage(Baggage baggage) {
         if (baggage != null) {
             baggage.markedCheckIn();
