@@ -263,10 +263,6 @@ class Payment {
     }
 }
 
-class ContrabandChecker {
-
-}
-
 class Seat {
     String seatNumber;
     String seatClass;
