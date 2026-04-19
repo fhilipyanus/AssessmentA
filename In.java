@@ -7,12 +7,12 @@ public class In {
         return in.nextLine();
     }
 
-    public static char nextChar() {
-        return in.nextLine().charAt(0);
+    public static String nextChar() {
+        return in.nextLine().substring(0, 1);
     }
 
-    public static char nextUpperChar() {
-        return in.nextLine().toUpperCase().charAt(0);
+    public static String nextUpperChar() {
+        return in.nextLine().toUpperCase().substring(0, 1);
     }
 
     public static int nextInt() {
