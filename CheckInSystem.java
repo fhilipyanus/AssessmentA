@@ -3,6 +3,11 @@ import java.util.ArrayList;
 
 class CheckInSystem {
     public static void main(String[] args) {
+        List<Flight> flights = new ArrayList<>();
+        flights.add(new Flight("D7 221", "Sydney", "Kuala Lumpur", 550));
+        flights.add(new Flight("JQ 501", "Sydney", "Melbourne", 100));
+        flights.add(new Flight("QF 500", "Sydney", "Brisbane", 95));
+        System.out.println(flights);
 
     }
 }
@@ -11,18 +16,36 @@ class Flight {
     String flightNumber;
     String departureLocation;
     String arrivalLocation;
-    String flightDuration;
+    float flightDuration;
     List<Seat> seats = new ArrayList<>();
 
-    Flight(String flightNumber, String depatureLocation, String arrivalLocation, String flightDuration) {
+    Flight(String flightNumber, String depatureLocation, String arrivalLocation, float flightDuration) {
         this.flightNumber = flightNumber;
         this.departureLocation = depatureLocation;
         this.arrivalLocation = arrivalLocation;
         this.flightDuration = flightDuration;
+
+        for (int row = 1; row <= 30; row++) {
+            for (char col = 'A'; col <= 'F'; col++) {
+                seats.add(new Seat(String.valueOf(row) + col, "Economy"));
+            }
+        }
     }
 
     public void addSeat(Seat seat) {
+        if (seat != null) {
+            seats.add(seat);
+        }
+    }
 
+    public String toString() {
+        return "Flight{" +
+                "flightNumber=" + flightNumber +
+                ", departureLocation=" + departureLocation +
+                ", arrivalLocation=" + arrivalLocation +
+                ", flightDuration=" + flightDuration +
+                ", seats=" + seats +
+                '}';
     }
 
 }
@@ -123,7 +146,7 @@ class ConfirmedBooking extends Booking {
     }
 
     void confirmSeatSelection() {
-        seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
+        seatSelectionStatus = SeatSelectionStatus.SELECTED;
     }
 }
 
@@ -286,6 +309,14 @@ class Seat {
 
     boolean checkAvailability() {
         return this.isAvailable;
+    }
+
+    public String toString() {
+        return "Seat{" +
+                "seatNumber=" + seatNumber +
+                ", seatClass=" + seatClass +
+                ", isAvailable=" + isAvailable +
+                '}';
     }
 
 }
