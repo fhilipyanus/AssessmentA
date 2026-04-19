@@ -55,6 +55,18 @@ class Flight {
         }
     }
 
+    public Seat findSeatByNumber(String seatNumber) {
+        if (seatNumber == null) {
+            return null;
+        }
+        for (Seat s : seats) {
+            if (s.seatNumber.equals(seatNumber)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     public String toString() {
         return "Flight{" +
                 "flightNumber=" + flightNumber +
@@ -278,6 +290,26 @@ class CheckIn implements CheckInService {
     }
 
     @Override
+    public void createBoardingPass() {
+        if (flight == null) {
+            System.out.println("No flight assigned; cannot create boarding pass.");
+            return;
+        }
+        System.out.print("Enter boarding pass ID: ");
+        int boardingPassID = In.nextInt();
+        System.out.print("Enter seat row (1-30) for boarding pass: ");
+        int row = In.nextInt();
+        System.out.print("Enter seat column (A-F): ");
+        char col = In.nextUpperChar();
+        String seatNumber = String.valueOf(row) + col;
+        Seat seat = flight.findSeatByNumber(seatNumber);
+        if (seat == null) {
+            System.out.println("No such seat on this flight: " + seatNumber);
+            return;
+        }
+        createBoardingPass(boardingPassID, seat, flight);
+    }
+
     public void createBoardingPass(int boardingPassID, Seat seat, Flight flight) {
         BoardingPass boardingPass = new BoardingPass(boardingPassID, seat, flight);
     }
@@ -288,6 +320,16 @@ class CheckIn implements CheckInService {
     }
 
     @Override
+    public void handlePayment() {
+        System.out.print("Enter payment ID: ");
+        String paymentID = In.nextLine();
+        System.out.print("Enter amount: ");
+        double amount = In.nextDouble();
+        System.out.print("Enter payment type: ");
+        String paymentType = In.nextLine();
+        handlePayment(new Payment(paymentID, amount, paymentType));
+    }
+
     public void handlePayment(Payment payment) {
         if (payment != null) {
             boolean success = payment.processPayment();
@@ -328,6 +370,7 @@ class CounterCheckIn extends CheckIn {
     String counterID;
 
     public CounterCheckIn(CheckInAgent agent, String counterID) {
+        super(0, null);
         this.agent = agent;
         this.counterID = counterID;
     }
