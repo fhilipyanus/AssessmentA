@@ -11,10 +11,10 @@ class Flight {
     String flightNumber;
     String departureLocation;
     String arrivalLocation;
-    String flightDuration;
+    float flightDuration;
     List<Seat> seats = new ArrayList<>();
 
-    Flight(String flightNumber, String depatureLocation, String arrivalLocation, String flightDuration) {
+    Flight(String flightNumber, String depatureLocation, String arrivalLocation, float flightDuration) {
         this.flightNumber = flightNumber;
         this.departureLocation = depatureLocation;
         this.arrivalLocation = arrivalLocation;
