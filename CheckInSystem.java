@@ -1,6 +1,12 @@
 import java.util.List;
 import java.util.ArrayList;
 
+class CheckInSystem {
+    public static void main(String[] args) {
+
+    }
+}
+
 class Flight {
     String flightNumber;
     String departureLocation;
@@ -91,10 +97,6 @@ class Passenger {
         this.name = name;
         this.age = age;
     }
-}
-
-class CheckInSystem {
-    String seat;
 }
 
 class CheckedInBooking extends Booking {
