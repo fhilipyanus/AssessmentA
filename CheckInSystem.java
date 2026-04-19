@@ -97,8 +97,6 @@ class CheckInSystem {
     String seat;
 }
 
-// Fhilip:
-
 class CheckedInBooking extends Booking {
     String checkInTime;
 
@@ -144,8 +142,6 @@ class Baggage {
 class BoardingPass {
     int boardingPassID;
 }
-
-// Jeson:
 
 interface CheckInService {
     void selectSeat();
@@ -217,8 +213,6 @@ class CheckInAgent {
     }
 }
 
-// Javier:
-
 enum PaymentStatus {
     PAID,
     PENDING,
@@ -267,10 +261,6 @@ class Payment {
                 ", status=" + status +
                 '}';
     }
-}
-
-class ContrabandChecker {
-
 }
 
 class Seat {
