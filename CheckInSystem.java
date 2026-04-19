@@ -11,7 +11,19 @@ class CheckInSystem {
 
     }
 }
-
+enum ContrabandFlag {
+        CLEAR,
+        FLAGGED
+}
+enum SeatSelectionStatus {
+        NOT_SELECTED,
+        SELECTED
+}
+enum PaymentStatus {
+    PAID,
+    PENDING,
+    UNPAID
+}
 class Flight {
     String flightNumber;
     String departureLocation;
@@ -25,6 +37,7 @@ class Flight {
         this.arrivalLocation = arrivalLocation;
         this.flightDuration = flightDuration;
 
+        //Redo
         for (int row = 1; row <= 30; row++) {
             for (char col = 'A'; col <= 'F'; col++) {
                 seats.add(new Seat(String.valueOf(row) + col, "Economy"));
@@ -67,9 +80,6 @@ class Booking {
         this.isCancelled = false;
     }
 
-    Booking() {
-        this("", "");
-    }
 
     void confirmBooking() {
         if (isCancelled) {
@@ -132,10 +142,7 @@ class CheckedInBooking extends Booking {
 }
 
 class ConfirmedBooking extends Booking {
-    enum SeatSelectionStatus {
-        NOT_SELECTED,
-        SELECTED
-    }
+    
 
     SeatSelectionStatus seatSelectionStatus = SeatSelectionStatus.NOT_SELECTED;
     String bookingDate;
@@ -151,21 +158,47 @@ class ConfirmedBooking extends Booking {
 }
 
 class Baggage {
-    int baggageID;
-    float weight;
+    String  baggageID;
+    double weight;
     boolean checkedIn;
+    ContrabandFlag contrabandFlag;
 
-    enum ContrabandFlag {
-        UNKNOWN,
-        CLEAR,
-        FLAGGED
+    public Baggage (String baggageID, double weight){
+        this.baggageID=baggageID;
+        this.weight=weight;
+        checkedIn=false;
+        contrabandFlag = ContrabandFlag.CLEAR;
+    }
+    
+    void updateWeight(double weight){
+
+    }
+    void markedCheckIn(){
+
+    }
+    void flagContraband(){
+        contrabandFlag = contrabandFlag.FLAGGED;
     }
 
-    ContrabandFlag contrabandFlag = ContrabandFlag.UNKNOWN;
 }
 
 class BoardingPass {
     int boardingPassID;
+    Seat seat;
+    Flight flight;
+
+    public BoardingPass(int boardingPassID, Seat seat, Flight flight){
+        this.boardingPassID=boardingPassID;
+        this.seat = seat;
+        this.flight=flight; 
+    }
+    void generatePass(){
+
+    }
+    // public String toString(){
+
+    // }
+
 }
 
 interface CheckInService {
@@ -183,31 +216,71 @@ interface CheckInService {
 class CheckIn implements CheckInService {
     int checkInID;
 
+    public CheckIn(int checkInID){
+        this.checkInID=checkInID;
+    }
     @Override
-    public void selectSeat() {
+    public void selectSeat(Seat seat) {
+        if ((seat != null) && (seat.checkAvailability())){
+            seat.assignSeat();
+            System.out.println("Seat selected successfully");
+        } else{
+            System.out.println("Seat is not available");
+        }
     }
 
     @Override
-    public void checkInBaggage() {
+    public void checkInBaggage(Baggage baggage) {
+        if (baggage != null){
+            baggage.markedCheckIn();
+            System.out.println("Baggage checked in");
+        }else {
+            System.out.println("No baggage");
+        }
     }
 
     @Override
-    public void createBoardingPass() {
+    public void createBoardingPass(int boardingPassID, Seat seat, Flight flight) {
+        BoardingPass boardingPass = new BoardingPass(boardingPassID, seat, flight);   
     }
 
     @Override
     public void verifyIdentity() {
+        System.out.println("Identity verified");
     }
 
     @Override
-    public void handlePayment() {
+    public void handlePayment(Payment payment) {
+        if(payment != null){
+            boolean success = payment.processPayment();
+            if (success){
+                System.out.println("Payment completed successfully");
+            }else {
+                System.out.println("Payment failed. Please try again");
+            }
+        }else {
+            System.out.println("No payment required");
+        }
     }
 }
 
 class SelfCheckIn extends CheckIn {
     String machineID;
 
+    public SelfCheckIn(int checkInID, String machineID){
+        super(checkInID);
+        this.machineID=machineID;
+    }
     void startSelfCheckIn() {
+        System.out.println("Starting self cehck-in at machine: " + machineID);
+
+        verifyIdentity();
+        selectSeat();
+        checkInBaggage();
+        handlePayment();
+        createBoardingPass();
+
+        System.out.println("Self check-in completed.");
     }
 }
 
@@ -215,14 +288,31 @@ class CounterCheckIn extends CheckIn {
     CheckInAgent agent;
     String counterID;
 
-    boolean verifyDocuments(Passenger passenger) {
-        return false;
+    public CounterCheckIn(CheckInAgent agent, String counterID){
+        this.agent=agent;
+        this.counterID=counterID;
     }
 
-    void assistCheckIn(Passenger passenger) {
+    boolean verifyDocuments(Passenger passenger) {
+        return agent != null && agent.verifyDocuments(passenger);
+    }
+
+    void assistCheckIn(Booking booking, Passenger passenger) {
+        System.out.println("Check-in at counter: " + counterID);
+
+        if(verifyDocuments(passenger)){
+            System.out.println("Documents verified");
+            System.out.println("Processing booking...");
+            System.out.println("Check-in successfull");
+        }else{
+            System.out.println("Verification failed");
+        }
     }
 
     void assistPassenger(Passenger passenger) {
+        if (agent != null){
+            agent.assistCheckIn(passenger);
+        }
     }
 }
 
@@ -231,18 +321,16 @@ class CheckInAgent {
     String name;
 
     boolean verifyDocuments(Passenger passenger) {
-        return false;
+        System.out.println("Verifying documents for " + passenger);
+        return passenger != null;
     }
 
     void assistCheckIn(Passenger passenger) {
+        System.out.println("Assisting passenger : " + passenger);
     }
 }
 
-enum PaymentStatus {
-    PAID,
-    PENDING,
-    UNPAID
-}
+
 
 class Payment {
     String paymentID;
