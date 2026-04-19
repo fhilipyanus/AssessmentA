@@ -5,8 +5,10 @@ class CheckInSystem {
     public static void main(String[] args) {
         List<Flight> flights = new ArrayList<>();
         flights.add(new Flight("D7 221", "Sydney", "Kuala Lumpur", 550));
+        flights.add(new Flight("JQ 501", "Sydney", "Melbourne", 100));
+        flights.add(new Flight("QF 500", "Sydney", "Brisbane", 95));
         System.out.println(flights);
-        System.out.println(flights.get(0).seats);
+
     }
 }
 
@@ -307,6 +309,14 @@ class Seat {
 
     boolean checkAvailability() {
         return this.isAvailable;
+    }
+
+    public String toString() {
+        return "Seat{" +
+                "seatNumber=" + seatNumber +
+                ", seatClass=" + seatClass +
+                ", isAvailable=" + isAvailable +
+                '}';
     }
 
 }
